@@ -1,0 +1,9 @@
+build/*
+build/*/*
+build/*.jou
+build/*.log
+
+targets/*/images
+targets/*/*.log
+targets/*/*.jou
+targets/*/*.info
