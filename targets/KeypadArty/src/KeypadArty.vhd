@@ -55,6 +55,16 @@ architecture rtl of KeypadArty is
    signal actRow : slv(4 - 1 downto 0);
    signal err    : sl;
 
+
+   -- test
+   -- Header 1 to 4
+   signal fwHeader14 : slv(4 - 1 downto 0);
+   signal hwHeader14 : slv(4 - 1 downto 0);
+
+   -- Header 5 to 8
+   signal fwHeader58 : slv(4 - 1 downto 0);
+   signal hwHeader58 : slv(4 - 1 downto 0);
+
    -----------------------------------------------------------------------------
    -- Debug declarations
    -----------------------------------------------------------------------------
@@ -66,12 +76,27 @@ architecture rtl of KeypadArty is
 
    attribute mark_debug of row : signal is TOP_C;
    attribute mark_debug of col : signal is TOP_C;
-   
+
    attribute mark_debug of clk : signal is TOP_C;
+
+   -- Test
+   attribute mark_debug of fwHeader14 : signal is TOP_C;
+   attribute mark_debug of hwHeader14 : signal is TOP_C;
+   attribute mark_debug of fwHeader58 : signal is TOP_C;
+   attribute mark_debug of hwHeader58 : signal is TOP_C;
 
 ---------------------------------------------------------------------------------------------------
 begin
 
+   -- Test
+   fwHeader14 <= x"A";
+   hwHeader14 <= x"5";
+
+   fwHeader58 <= x"D";
+   hwHeader58 <= x"6";
+
+
+   --
    clk <= CLK100MHZ;
    rst <= not(ck_rst);
 
