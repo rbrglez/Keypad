@@ -54,7 +54,7 @@ if {$ILA(enable) == 1} {
 
 ################################################################################
 # Keypad Debug ILA
-set ILA(enable) 0
+set ILA(enable) 1
 set ILA(size)   1024
 set ILA(name)   "KeypadTest"
 set ILA(clock)  "clk"
@@ -71,6 +71,8 @@ if {$ILA(enable) == 1} {
 
    ConfigProbe ${ILA(unit)} {fwHeader58[*]}
    ConfigProbe ${ILA(unit)} {hwHeader58[*]}
+   #
+   ConfigProbe ${ILA(unit)} {fwSwitch[*]}
 
    WriteDebugProbes ${ILA(unit)} ${PROJ_DIR}/images/debug_probes.ltx
 }

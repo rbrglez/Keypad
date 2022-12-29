@@ -106,6 +106,8 @@ architecture rtl of Arty101 is
 
    attribute mark_debug of fwHeader58 : signal is KEYPAD_DEBUG_C;
    attribute mark_debug of hwHeader58 : signal is KEYPAD_DEBUG_C;
+   
+   attribute mark_debug of fwSwitch : signal is KEYPAD_DEBUG_C;
 
    attribute mark_debug of clk : signal is KEYPAD_DEBUG_C;
 

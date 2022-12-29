@@ -14,7 +14,7 @@
 ################################################################################
 # Get variables and procedures
 ################################################################################
-source -quiet $::env(RUCKUS_DIR)/vivado_env_var.tcl
+source -quiet $::env(RUCKUS_DIR)/vivado/env_var.tcl
 source -quiet $::env(RUCKUS_DIR)/vivado_proc.tcl
 
 ################################################################################
@@ -27,31 +27,10 @@ open_run synth_1
 ################################################################################
 
 ################################################################################
-# Random_ILA_Template
+# Keypad Debug ILA
 set ILA(enable) 0
 set ILA(size)   1024
-set ILA(name)   "thisIlaName"
-set ILA(clock)  "thisIlaClock"
-
-if {$ILA(enable) == 1} {
-   set ILA(unit) "u_ila_$ILA(name)"
-   CreateDebugCore ${ILA(unit)}
-   set_property C_DATA_DEPTH $ILA(size) [get_debug_cores ${ILA(unit)}]
-   SetDebugCoreClk ${ILA(unit)} ${ILA(clock)}
-
-   # Define probes
-   ConfigProbe ${ILA(unit)} {simLate}
-   ConfigProbe ${ILA(unit)} {u_CoreLogicSim/////u_EthRxPktParse/r[resp][*]}
-
-   WriteDebugProbes ${ILA(unit)} ${PROJ_DIR}/images/debug_probes.ltx
-}
-################################################################################
-
-################################################################################
-# Keypad chipscope
-set ILA(enable) 1
-set ILA(size)   1024
-set ILA(name)   "keypadDebug"
+set ILA(name)   "KeypadDebug"
 set ILA(clock)  "clk"
 
 if {$ILA(enable) == 1} {
@@ -60,15 +39,41 @@ if {$ILA(enable) == 1} {
    set_property C_DATA_DEPTH $ILA(size) [get_debug_cores ${ILA(unit)}]
    SetDebugCoreClk ${ILA(unit)} ${ILA(clock)}
 
-   # Outputs
-   ConfigProbe ${ILA(unit)} {fwHeader14[*]}
-   ConfigProbe ${ILA(unit)} {hwHeader14[*]}
+   # Define probes
+   ConfigProbe ${ILA(unit)} {row[*]}
+   ConfigProbe ${ILA(unit)} {col[*]}
 
-   # Inputs
-   ConfigProbe ${ILA(unit)} {fwHeader58[*]}
-   ConfigProbe ${ILA(unit)} {hwHeader58[*]}
+   ConfigProbe ${ILA(unit)} {actRow[*]}
+   ConfigProbe ${ILA(unit)} {actCol[*]}
+
+   ConfigProbe ${ILA(unit)} {err}
 
    WriteDebugProbes ${ILA(unit)} ${PROJ_DIR}/images/debug_probes.ltx
 }
 ################################################################################
 
+################################################################################
+# Keypad Debug ILA
+set ILA(enable) 1
+set ILA(size)   1024
+set ILA(name)   "KeypadTest"
+set ILA(clock)  "clk"
+
+if {$ILA(enable) == 1} {
+   set ILA(unit) "u_ila_$ILA(name)"
+   CreateDebugCore ${ILA(unit)}
+   set_property C_DATA_DEPTH $ILA(size) [get_debug_cores ${ILA(unit)}]
+   SetDebugCoreClk ${ILA(unit)} ${ILA(clock)}
+
+   # Define probes
+   ConfigProbe ${ILA(unit)} {fwHeader14[*]}
+   ConfigProbe ${ILA(unit)} {hwHeader14[*]}
+
+   ConfigProbe ${ILA(unit)} {fwHeader58[*]}
+   ConfigProbe ${ILA(unit)} {hwHeader58[*]}
+   #
+   ConfigProbe ${ILA(unit)} {fwSwitch[*]}
+
+   WriteDebugProbes ${ILA(unit)} ${PROJ_DIR}/images/debug_probes.ltx
+}
+################################################################################
